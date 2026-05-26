@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
+import { Distribution, ViewerProtocolPolicy, CachePolicy } from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import { Construct } from 'constructs';
 
@@ -16,11 +16,11 @@ export class UiStack extends cdk.Stack {
     });
 
     // 2. CloudFront distribution in front of the bucket
-    const distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
+    const distribution = new Distribution(this, 'SiteDistribution', {
       defaultBehavior: {
         origin: origins.S3BucketOrigin.withOriginAccessControl(siteBucket),
-        viewerProtocol: cloudfront.ViewerProtocol.REDIRECT_TO_HTTPS, // force HTTPS
-        cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
+        viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS, // force HTTPS
+        cachePolicy: CachePolicy.CACHING_OPTIMIZED,
       },
       defaultRootObject: 'index.html',  // load index.html at root URL
       errorResponses: [
