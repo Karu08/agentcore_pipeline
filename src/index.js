@@ -8,7 +8,7 @@ function App() {
       <p>This page is deployed via GitHub Actions.</p>
     </div>
   );
-}and
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
